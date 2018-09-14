@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>IGNORED</title>
+</h:head>
+<h:body>
+	<h:form id="form">
+
+
+		<p:commandButton value="Indice" id="nonAjax"
+			action="irDelistProdutoParaIndex" ajax="false" />
+
+		<p:dataTable var="produtoView" value="#{dtProdutoView.lazyModel}"
+			paginator="true" rows="10" rowKey="#{produtoView.nome}"
+			paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+			rowsPerPageTemplate="10,15" selectionMode="single"
+			filteredValue="#{dtProdutoView.filteredProdutos}"
+			selection="#{dtProdutoView.selectedProduto}" id="produtoViewTable">
+
+			<p:ajax event="rowSelect" listener="#{dtProdutoView.onRowSelect}"
+				update=":form:produtoViewDetail"
+				oncomplete="PF('produtoViewDialog').show()" />
+
+			<p:column id="nomePrd" headerText="Nome" 
+				filterBy="#{produtoView.nome}" filterMatchMode="contains">
+				<h:outputText value="#{produtoView.nome}" />
+			</p:column>
+			<p:column id="dscPrd" headerText="Descricao">
+				<h:outputText value="#{produtoView.descricao}" />
+			</p:column>
+			<p:column id="qtdPrd" headerText="Quantidade">
+				<h:outputText value="#{produtoView.quantidade}" />
+			</p:column>
+			<p:column id="valPrd" headerText="Valor">
+				<h:outputText value="#{produtoView.valor}">
+					<f:convertNumber type="currency" currencySymbol="$" />
+				</h:outputText>
+			</p:column>
+			<p:column id="empPrd" headerText="Empregado"
+				filterBy="#{produtoView.empregado.nome}">
+				<h:outputText value="#{produtoView.empregado.nome}" />
+			</p:column>
+			<p:column id="catPrd" headerText="Categoria"
+				filterBy="#{produtoView.categoria.descricao}">
+				<h:outputText value="#{produtoView.categoria.descricao}" />
+			</p:column>
+			<p:column id="subPrd" headerText="Subcategoria"
+				filterBy="#{produtoView.subcategoria.descricao}">
+				<h:outputText value="#{produtoView.subcategoria.descricao}" />
+			</p:column>
+		</p:dataTable>
+
+		<p:dialog header="produtoViewDetail" widgetVar="produtoViewDialog"
+			modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+			<p:outputPanel id="produtoViewDetail" style="text-align:center;">
+				<p:panelGrid columns="2"
+					rendered="#{not empty dtProdutoView.selectedProduto}"
+					columnClasses="label,value">
+					<h:outputText value="Nome" />
+					<h:outputText value="#{dtProdutoView.selectedProduto.nome}" />
+
+					<h:outputText value="Descricao" />
+					<h:outputText value="#{dtProdutoView.selectedProduto.descricao}" />
+
+
+					<h:outputText value="Quantidade" />
+					<h:outputText rendered="#{dtProdutoView.empregadoProduto eq false}"
+						value="#{dtProdutoView.selectedProduto.quantidade}"
+						style="color:#{dtProdutoView.selectedProduto.quantidade}" />
+					<h:inputText rendered="#{dtProdutoView.empregadoProduto eq true}"
+						value="#{dtProdutoView.selectedProduto.quantidade}"
+						style="color:#{dtProdutoView.selectedProduto.quantidade}" />
+
+					<h:outputText value="Valor" />
+					<h:outputText rendered="#{dtProdutoView.empregadoProduto eq false}"
+						value="#{dtProdutoView.selectedProduto.valor}">
+						<f:convertNumber type="currency" currencySymbol="$" />
+					</h:outputText>
+					<h:inputText rendered="#{dtProdutoView.empregadoProduto eq true}"
+						value="#{dtProdutoView.selectedProduto.valor}">
+						<f:convertNumber type="currency" currencySymbol="$" />
+					</h:inputText>
+				</p:panelGrid>
+				<p:commandButton id="submitChange"
+					rendered="#{not empty dtProdutoView.selectedProduto and dtProdutoView.empregadoProduto eq true}"
+					value="Submeter Alterações"
+					action="#{dtProdutoView.alterarProduto}"
+					onclick="produtoViewDialog.close()" />
+			</p:outputPanel>
+
+		</p:dialog>
+	</h:form>
+</h:body>
+</html>
+

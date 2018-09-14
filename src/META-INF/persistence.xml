@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="ProjetoJavaAdvancedRumos"
+		transaction-type="JTA">
+		<jta-data-source>java:/RumosDataSource</jta-data-source>
+		<class>com.rumos.model.Categoria</class>
+		<class>com.rumos.model.Empregado</class>
+		<class>com.rumos.model.Fatura</class>
+		<class>com.rumos.model.Linhasdefatura</class>
+		<class>com.rumos.model.Produto</class>
+		<class>com.rumos.model.Subcategoria</class>
+		<class>com.rumos.model.User</class>
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
+		<properties />
+	</persistence-unit>
+</persistence>

@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>IGNORED</title>
+</h:head>
+<h:body>
+	<h:form id="form">
+
+		<p:messages id="messages" showDetail="true" closable="true">
+			<p:autoUpdate />
+		</p:messages>
+
+		<p:commandButton value="Indice" id="botaoSair"
+			action="irDeNovaVendaParaIndex" ajax="false" />
+
+		<p:commandButton value="Inserir artigo" id="botaoInserir"
+			onclick="PF('vendaViewDialog').show()" />
+
+		<p:commandButton value="Fechar Venda" id="fecharVenda"
+			action="#{dtVendaView.fecharVenda}" />
+
+
+		<p:dataTable var="vendaView" value="#{dtVendaView.lazyModel}"
+			paginator="true" rows="10"
+			paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+			rowsPerPageTemplate="5,10,15" selectionMode="single"
+			selection="#{dtVendaView.selectedLinha}" id="vendaViewTable"
+			lazy="true">
+
+			<p:ajax event="rowSelect" update=":form:vendaViewSelected"
+				oncomplete="PF('vendaViewSelectedDialog').show()" />
+
+			<p:column headerText="Nome" sortBy="#{vendaView.produto.nome}">
+				<h:outputText value="#{vendaView.produto.nome}" />
+			</p:column>
+
+			<p:column headerText="Quantidade">
+				<h:outputText value="#{vendaView.quantidade}" />
+			</p:column>
+
+			<p:column headerText="Valor">
+				<h:outputText
+					value="#{vendaView.produto.valor * vendaView.quantidade}">
+					<f:convertNumber type="currency" currencySymbol="$" />
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText="Valor Unitário">
+				<h:outputText value="#{vendaView.produto.valor}">
+					<f:convertNumber type="currency" currencySymbol="$" />
+				</h:outputText>
+			</p:column>
+
+			<p:columnGroup type="footer">
+				<p:row>
+					<p:column colspan="1" style="text-align:right" footerText="Totals:" />
+					<p:column footerText="#{dtVendaView.quantidadeTotal}" />
+					<p:column footerText="$#{dtVendaView.valorTotal}" />
+					<p:column footerText="" />
+				</p:row>
+			</p:columnGroup>
+
+		</p:dataTable>
+
+		<p:dialog header="vendaViewDetail" widgetVar="vendaViewDialog"
+			modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+
+			<p:outputPanel id="vendaViewDetail" style="text-align:center;">
+
+				<p:panelGrid columns="2" columnClasses="label,value">
+					<p:outputLabel for="artigo" value="Artigo " />
+					<p:selectOneMenu id="artigo"
+						value="#{dtVendaView.produtoNovaLinha}">
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItems value="#{dtVendaView.produtosNovaLinha}" />
+					</p:selectOneMenu>
+				</p:panelGrid>
+
+				<p:panelGrid columns="2" columnClasses="label,value">
+					<h:outputText value="Quantidade" />
+					<p:spinner id="minMax" value="#{dtVendaView.quantidadeNovaLinha}"
+						min="1" max="100" />
+				</p:panelGrid>
+
+				<p:commandButton id="submitChange" value="Submeter Alterações"
+					action="#{dtVendaView.acrescentarNovaLinha}"
+					onclick="vendaViewDialog.close()" />
+			</p:outputPanel>
+		</p:dialog>
+
+		<p:dialog header="vendaViewSelected"
+			widgetVar="vendaViewSelectedDialog" modal="true" showEffect="fade"
+			hideEffect="fade" resizable="false">
+
+			<p:outputPanel id="vendaViewSelected" style="text-align:center;">
+
+				<p:panelGrid columns="2" columnClasses="label,value"
+					rendered="#{not empty dtVendaView.selectedLinha}">
+					<h:outputText value="Quantidade" />
+					<p:spinner id="minMax1"
+						value="#{dtVendaView.selectedLinha.quantidade}" min="1" max="100" />
+				</p:panelGrid>
+
+				<p:commandButton id="submitChange1" value="Submeter Alterações"
+					action="#{dtVendaView.alterarQuantidadeLinha}"
+					onclick="vendaViewSelected.close()" />
+			</p:outputPanel>
+		</p:dialog>
+
+
+
+
+	</h:form>
+</h:body>
+</html>
+

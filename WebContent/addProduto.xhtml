@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<head>
+<title>IGNORED</title>
+</head>
+<body>
+	<ui:composition template="/templates/masterLayout.xhtml">
+		<ui:define name="heading">
+                #{msg.appName}:#{msg.title_criarProduto}
+            </ui:define>
+
+		<ui:define name="content">
+			<h:form>
+				<br />
+                    #{msg.column_ProdutoNome}
+                    <h:inputText id="Nome" value="#{produto.nome}"
+					required="true" />
+				<h:message for="Nome" styleClass="error" showSummary="true"
+					showDetail="false" />
+
+				<br />
+				<br />
+					#{msg.column_ProdutoDescricao}
+                    <h:inputText id="Descricao"
+					value="#{produto.descricao}" required="true" />
+				<h:message for="Descricao" styleClass="error" showSummary="true"
+					showDetail="false" />
+					
+				<br />
+				<br />
+					#{msg.column_ProdutoValor}
+                    <h:inputText id="Valor"
+					value="#{produto.valor}" required="true">
+					<f:convertNumber integerOnly="true" groupingUsed="false" />
+				</h:inputText>
+				<h:message for="Valor" styleClass="error" showSummary="true"
+					showDetail="false" />
+
+				<br />
+				<br />
+					#{msg.column_ProdutoQuantidade}
+                    <h:inputText id="Quantidade"
+					value="#{produto.quantidade}" required="true">
+					<f:convertNumber integerOnly="true" groupingUsed="false" />
+				</h:inputText>
+				<h:message for="Quantidade" styleClass="error" showSummary="true"
+					showDetail="false" />
+
+				<br />
+				<br />	
+					#{msg.column_ProdutoEmpregado}
+					<h:selectOneMenu id="Empregado" value="#{produto.empregado}">
+					<f:selectItem itemValue="#{null}" itemLabel="-- select --" />
+					<f:selectItems value="#{produto.empregadoList}" />
+				</h:selectOneMenu>
+
+				<br />
+				<br />			
+					#{msg.column_ProdutoCategoria}
+					<h:selectOneMenu id="Categoria" value="#{produto.categoria}">
+					<f:selectItem itemValue="#{null}" itemLabel="-- select --" />
+					<f:selectItems value="#{produto.categoriaList}" />
+					<f:ajax listener="#{produto.changeCategoria}" render="Subcategoria" />
+				</h:selectOneMenu>
+
+				<br />
+				<br />
+					#{msg.column_ProdutoSubcategoria}
+					<h:selectOneMenu id="Subcategoria" value="#{produto.subcategoria}">
+					<f:selectItem itemValue="#{null}" itemLabel="-- select --" />
+					<f:selectItems value="#{produto.subcategoriaList}" />
+				</h:selectOneMenu>
+
+				<br />
+				<br />
+
+				<h:commandButton value="#{msg.btn_addProduto}"
+					action="#{produto.addProduto}" />
+				<h:commandButton value="#{msg.btn_cancel}" action="home"
+					immediate="true" />
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>
+

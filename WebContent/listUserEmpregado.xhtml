@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>IGNORED</title>
+</h:head>
+<h:body>
+	<h:form id="form">
+
+
+		<p:commandButton value="Indice" id="nonAjax"
+			action="irDelistUserEmpregadoParaIndex" ajax="false" />
+
+		<p:dataTable var="userempregadoView"
+			value="#{dtUserEmpregadoView.lazyModel}" paginator="true" rows="10"
+			rowKey="#{userempregadoView.user.username}"
+			paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+			rowsPerPageTemplate="10,15" selectionMode="single"
+			filteredValue="#{dtUserEmpregadoView.filteredUserEmpregados}"
+			id="userempregadoViewTable">
+
+
+			<p:column id="nome" headerText="User"
+				filterBy="#{userempregadoView.user.username}"
+				filterMatchMode="contains">
+				<h:outputText value="#{userempregadoView.user.username}" />
+			</p:column>
+			<p:column id="role" headerText="Role"
+				filterBy="#{userempregadoView.user.role}" filterMatchMode="contains">
+				<h:outputText value="#{userempregadoView.user.role}" />
+			</p:column>
+			<p:column id="emp" headerText="Nome Empregado"
+				filterBy="#{userempregadoView.empregado.nome}"
+				filterMatchMode="contains">
+				<h:outputText value="#{userempregadoView.empregado.nome}" />
+			</p:column>
+			<p:column id="cargo" headerText="Cargo"
+				filterBy="#{userempregadoView.empregado.cargo}"
+				filterMatchMode="contains">
+				<h:outputText value="#{userempregadoView.empregado.cargo}" />
+			</p:column>
+			<p:column id="nif" headerText="Nif"
+				filterBy="#{userempregadoView.empregado.nif}"
+				filterMatchMode="contains">
+				<h:outputText value="#{userempregadoView.empregado.nif}" />
+			</p:column>
+			<p:column id="telemovel" headerText="Telemovel">
+				<h:outputText value="#{userempregadoView.empregado.telemovel}" />
+			</p:column>
+			<p:column id="dnas" headerText="Data Nascimento">
+				<h:outputText value="#{userempregadoView.empregado.datenascimento}" />
+			</p:column>
+
+		</p:dataTable>
+
+	</h:form>
+</h:body>
+</html>
+

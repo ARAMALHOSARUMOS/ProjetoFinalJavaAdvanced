@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<title>#{msg.aplicationTitle}</title>
+</h:head>
+<h:body>
+	<h2>#{msg.appName}</h2>
+
+	<h:outputFormat value="#{msg.welcome}">
+		<f:param value="#{empty login.username ? 'Guest' : login.username}" />
+	</h:outputFormat>
+        !
+        <hr />
+
+	<h:form rendered="#{login.isAdmin()}">
+		<h:commandLink value="#{msg.title_addUser}" action="addUser" />
+		<p />
+		<h:commandLink value="#{msg.title_addEmpregado}" action="addEmpregado" />
+		<p />
+		<h:commandLink value="#{msg.title_listUserEmpregado}"
+			action="listUserEmpregado" />
+		<p />
+		<h:commandLink value="#{msg.title_addCategoria}" action="addCategoria" />
+		<p />
+		<h:commandLink value="#{msg.title_addSubCategoria}"
+			action="addSubCategoria" />
+		<p />
+		<h:commandLink value="#{msg.title_listCategoriasSubcategorias}"
+			action="listCategoriasSubcategorias" />
+		
+	</h:form>
+	<h:form>
+		<p />
+		<h:commandLink value="#{msg.title_criarProduto}" action="addProduto" />
+		<p />
+		<h:commandLink value="#{msg.title_listProduto}" action="listProduto" />
+		<p />
+		<h:commandLink value="#{msg.title_novaVenda}" action="novaVenda" />
+		<p />
+		<h:commandLink value="#{msg.title_listarVendas}" action="listFaturas" />
+		<p />
+		<hr />
+		<!--  <h:commandLink action="login">Login</h:commandLink> -->
+		<h:commandButton value="#{msg.logoutBtnTxt}" action="#{login.logout}"
+			text="Logout" />
+	</h:form>
+
+</h:body>
+</html>
+
